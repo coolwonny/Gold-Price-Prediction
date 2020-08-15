@@ -78,6 +78,6 @@ Finally, we plotted the dataframe to see the overall trend.
 ## Conclusion
 
 With nearly 52 years of daily data, we trained the model with a dataset from Jan. 1968 to Nov. 2004. Then, tested it with the actual prices from Nov. 2004 up to the most recent of Aug 2020. Surprisingly, the model predicted quite precisely in the first few years(2004 to 2007). **More surprisingly, the model predicted the approximate trend for the next 13 years**, regardless of scalar gap between the acutal and predicted prices. How amazing!  
-We learned from this project that how powerful an RNN-LSTM model could be, given a sufficient volume of time-series data.  
+We learned from this project about how powerful an RNN-LSTM model could be, given a sufficient volume of time-series data.  
    
 The entire process is documented in [Jupyter notebook](https://github.com/coolwonny/Gold-Price-Prediction/blob/master/gold_price_predict.ipynb).
