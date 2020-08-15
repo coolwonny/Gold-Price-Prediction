@@ -12,6 +12,58 @@ In this section, we will retrieve the gold histroical prices from the London Bul
 
 ## Data preprocessing
 
-This is the most interesting and important part in dealing with any type of data. We have to go through from replacing the `null` or missing values. There were 6 different columns of prices; USD(AM), USD(PM), GBP(AM), GBP(PM), EURO(AM), and EURO(PM). Here, we are going to use the column of the USD(AM) for as feature and target column out of the six. By searching with `df.isnull().sum()`, we found out there were 141 missing values for the column. We filled the missing values with the previous price in the series.
+This is the most interesting and important part in dealing with any type of data. We have to go through from replacing the `null` or missing values. There were 6 different columns of prices; USD(AM), USD(PM), GBP(AM), GBP(PM), EURO(AM), and EURO(PM). Here, we are going to use the column of the USD(AM) for as feature and target column out of the six. By searching with `df.isnull().sum()`, we found out there were 1 missing values for the column. We filled the missing values with the previous price in the series.
 
-Next, we will define a window size of 30 days for the data. This will create arrays of 30 days value in time-series that will allow us  
+Next, we will define a window size of 30 days for the data. The reason for setting a window(or rolling window) in time-series analysis is that we assume there is an unkown law so every next term of time-series is the function of *n* previous terms. For example, *r(t+1) = f(r(t),r(t-1),...,r(t-n-1))* and the influence of the rest time-series members is negligibly small. 
+This will create arrays of 30 days value in time-series that will allow us to predict the next value based on the values in the window. Of course, we need to create the features set **X** and the target vector **y** as follows.
+
+
+X sample values:   
+[[35.18 35.16 35.14 35.14 35.14 35.14 35.15 35.17 35.18 35.18 35.19 35.2
+  35.2  35.19 35.19 35.19 35.2  35.2  35.2  35.19 35.19 35.2  35.2  35.2
+  35.19 35.19 35.2  35.19 35.2  35.19]   
+ [35.16 35.14 35.14 35.14 35.14 35.15 35.17 35.18 35.18 35.19 35.2  35.2
+  35.19 35.19 35.19 35.2  35.2  35.2  35.19 35.19 35.2  35.2  35.2  35.19
+  35.19 35.2  35.19 35.2  35.19 35.19]   
+ [35.14 35.14 35.14 35.14 35.15 35.17 35.18 35.18 35.19 35.2  35.2  35.19
+  35.19 35.19 35.2  35.2  35.2  35.19 35.19 35.2  35.2  35.2  35.19 35.19
+  35.2  35.19 35.2  35.19 35.19 35.2 ]]    
+
+y sample values:   
+[[35.19]   
+ [35.2 ]   
+ [35.2 ]]   
+
+    
+Since the time-series is order-sensitive, we have to avoid the dataset being randomized rather than using `train_test_split` function. We should manually create the training and testing sets using array slicing that separates 70% of the data for training and the remainder for testing. After then, we need to scale the dataset between 0 and 1 by using `MinMaxScaler`. The last part of preprocessing will be reshaping the features dataset. Because the LSTM API from Keras needs to receive the input data as a vertical vector, so that we have to reshape both sets, training and testing by using `reshape((X_train.shape[0], X_train.shape[1], 1))`.
+
+## Build and Train the LSTM RNN
+
+In this section, we will design a custom LSTM RNN in Keras and fit (train) it using the training data we defined.
+
+For designing the structure of the RNN LSTM, we need to:
+
+* Number of units per layer: `30` (same as the window size)
+* Dropout fraction: `0.2` (20% of neurons will be randomly dropped on each epoch)
+* Add three `LSTM` layers to your model, remember to add a `Dropout` layer after each `LSTM` layer, and to set `return_sequences=True` in the first two layers only.
+* Add a `Dense` output layer with one unit.
+
+After designing the model, we will complie the model using the `adam` optimizer(for gradient descent), and `mean_square_error` as loss function since the value we want to predict is continuous.
+
+Now, we are going to train(fit) the model with the training data using 10 epochs and a `batch_size=90`. Since we are working with time-series data, do not forget to set `shuffle=False` as it's necessary to keep the sequential order of the data.
+
+## Model Performance
+
+In this section, we will evaluate the model using the test data. 
+
+we will need to:
+
+1. Evaluate the model using the `X_test` and `y_test` data.
+
+2. Use the `X_test` data to make predictions.
+
+3. Create a DataFrame of Real (`y_test`) vs. predicted values.
+
+4. Plot the real vs. predicted values as a line chart.
+
+The result we had was 0.0237909201, which is quite good accuracy. Then, we moved on to prediction using `X_test`, and used the `inverse_transform()` method of the scaler to decode the scaled testing and predicted values to their original scale.
