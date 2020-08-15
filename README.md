@@ -18,7 +18,7 @@ Next, we will define a window size of 30 days for the data. The reason for setti
 This will create arrays of 30 days value in time-series that will allow us to predict the next value based on the values in the window. Of course, we need to create the features set **X** and the target vector **y** as follows.
 
 
-X sample values:   
+**X sample values:**   
 [[35.18 35.16 35.14 35.14 35.14 35.14 35.15 35.17 35.18 35.18 35.19 35.2
   35.2  35.19 35.19 35.19 35.2  35.2  35.2  35.19 35.19 35.2  35.2  35.2
   35.19 35.19 35.2  35.19 35.2  35.19]   
@@ -29,7 +29,7 @@ X sample values:
   35.19 35.19 35.2  35.2  35.2  35.19 35.19 35.2  35.2  35.2  35.19 35.19
   35.2  35.19 35.2  35.19 35.19 35.2 ]]    
 
-y sample values:   
+**y sample values:**   
 [[35.19]   
  [35.2 ]   
  [35.2 ]]   
@@ -67,3 +67,17 @@ we will need to:
 4. Plot the real vs. predicted values as a line chart.
 
 The result we had was 0.0237909201, which is quite good accuracy. Then, we moved on to prediction using `X_test`, and used the `inverse_transform()` method of the scaler to decode the scaled testing and predicted values to their original scale.
+
+Accordingly, we created a new dataframe called `stocks` with the datetime index from the `df` dataframe created previously, and with the columns of **Acutal** prices(testing data), and **Predicted** prices as follows.   
+
+![](https://github.com/coolwonny/Gold-Price-Prediction/blob/master/Images/stocks_dataframe.png)   
+
+Finally, we plotted the dataframe to see the overall trend.   
+![plot](https://github.com/coolwonny/Gold-Price-Prediction/blob/master/Images/plot.png)
+
+## Conclusion
+
+With nearly 52 years of daily data, we trained the model with a dataset from Jan. 1968 to Nov. 2004. Then, tested it with the actual prices from Nov. 2004 up to the most recent of Aug 2020. Surprisingly, the model predicted quite precisely in the first few years(2004 to 2007). **More surprisingly, the model predicted the approximate trend for the next 13 years**, regardless of scalar gap between the acutal and predicted prices. How amazing!  
+We learned from this project that how powerful an RNN-LSTM model could be, given a sufficient volume of time-series data.  
+   
+The entire process is documented in [Jupyter notebook](https://github.com/coolwonny/Gold-Price-Prediction/blob/master/gold_price_predict.ipynb).
