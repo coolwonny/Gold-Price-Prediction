@@ -1,5 +1,5 @@
 # Gold Price Prediction: Deep-Learning
-
+---
 Gold has long been a favorite asset for hedging inflation. Particularly, it has been shining more after the COVID-19 breakout as most of all countries are heading for quantitative easing or QE again. Recently, the gold price hit the record high over $2000 per oz., and many analysts insist that there should be more room for price-increase in the next quarters. 
 
 This brings us a question on how the machine would predict this trend, had we build a deep learning model with the historical gold prices. Would the model tell us a story of gold prices soaring like what they are like today?
