@@ -19,6 +19,7 @@ This will create arrays of 30 days value in time-series that will allow us to pr
 
 
 **X sample values:**   
+```
 [[35.18 35.16 35.14 35.14 35.14 35.14 35.15 35.17 35.18 35.18 35.19 35.2
   35.2  35.19 35.19 35.19 35.2  35.2  35.2  35.19 35.19 35.2  35.2  35.2
   35.19 35.19 35.2  35.19 35.2  35.19]   
@@ -28,11 +29,13 @@ This will create arrays of 30 days value in time-series that will allow us to pr
  [35.14 35.14 35.14 35.14 35.15 35.17 35.18 35.18 35.19 35.2  35.2  35.19
   35.19 35.19 35.2  35.2  35.2  35.19 35.19 35.2  35.2  35.2  35.19 35.19
   35.2  35.19 35.2  35.19 35.19 35.2 ]]    
-
+```
 **y sample values:**   
+```
 [[35.19]   
  [35.2 ]   
- [35.2 ]]   
+ [35.2 ]] 
+```
 
     
 Since the time-series is order-sensitive, we have to avoid the dataset being randomized rather than using `train_test_split` function. We should manually create the training and testing sets using array slicing that separates 70% of the data for training and the remainder for testing. After then, we need to scale the dataset between 0 and 1 by using `MinMaxScaler`. The last part of preprocessing will be reshaping the features dataset. Because the LSTM API from Keras needs to receive the input data as a vertical vector, so that we have to reshape both sets, training and testing by using `reshape((X_train.shape[0], X_train.shape[1], 1))`.
